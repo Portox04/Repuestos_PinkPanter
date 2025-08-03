@@ -7,6 +7,8 @@ package com.mycompany.sistemapinkpantherapp;
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,8 +17,16 @@ import java.awt.event.*;
 public class VentanaPrincipalGUI extends JFrame {
 
     private JButton btnVentas, btnClientes, btnFactura, btnInventario, btnSalir;
-
+    private BaseDeDatos datos;
+    
+    
     public VentanaPrincipalGUI() {
+        
+        datos = new BaseDeDatos();
+        
+        Producto prueba = new Producto(221,"2321313SA","Termometro","Temperatura","Chevy Cavalier 2019",2200.00,5500.00,10,5,1021);
+        datos.agregarProducto(prueba);
+        
         setTitle("Pantalla Principal - Pink Panther");
         setSize(400, 350);
         setLocationRelativeTo(null);
@@ -50,13 +60,13 @@ public class VentanaPrincipalGUI extends JFrame {
         // Acciones de los botones
         btnVentas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new VentasGUI().setVisible(true);
+                new VentasGUI(VentanaPrincipalGUI.this, datos).setVisible(true);
             }
         });
 
         btnClientes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new ClientesGUI().setVisible(true);
+                new ClientesGUI(VentanaPrincipalGUI.this, datos).setVisible(true);
             }
         });
 
@@ -77,6 +87,13 @@ public class VentanaPrincipalGUI extends JFrame {
                 dispose(); // Cierra la ventana principal
             }
         });
+
+        JButton btnGuardarBD = new JButton("Guardar Base de Datos");
+        btnGuardarBD.addActionListener(e -> {
+            SistemaPinkPantherApp.bd.guardar();
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+        });
+        this.add(btnGuardarBD);
     }
 
 }

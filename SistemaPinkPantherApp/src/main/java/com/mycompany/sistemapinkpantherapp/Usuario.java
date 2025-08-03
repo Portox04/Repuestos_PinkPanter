@@ -4,11 +4,13 @@
  */
 package com.mycompany.sistemapinkpantherapp;
 
+import java.io.Serializable;
+
 /**
  *
  * @author porto
  */
-public class Usuario implements IUsuarioServicio{
+public class Usuario implements IUsuarioServicio, Serializable{
     
     private int idUsuario;
     private String nombre;

@@ -4,6 +4,7 @@
  */
 package com.mycompany.sistemapinkpantherapp;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -11,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author porto
  */
-public class Ventas implements IVentaService{
+public class Ventas implements IVentaService, Serializable {
     
     private static int contadorVentas = 0; 
     private int idVenta;

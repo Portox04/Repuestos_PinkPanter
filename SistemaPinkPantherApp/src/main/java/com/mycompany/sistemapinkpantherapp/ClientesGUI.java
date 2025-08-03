@@ -4,6 +4,9 @@
  */
 package com.mycompany.sistemapinkpantherapp;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -13,63 +16,94 @@ import javax.swing.*;
  */
 public class ClientesGUI extends JFrame {
 
-    private JTextField txtNombre, txtCedula, txtTelefono, txtDireccion, txtCredito;
-    private JButton btnRegistrar, btnBuscarHistorial;
+    private JTextField txtNombre, txtCedula, txtTelefono, txtCorreo, txtCredito;
+    private JButton btnRegistrar, btnCancelar;
+    
+    public ClientesGUI(JFrame owner, BaseDeDatos data) {
+        super ("Agregar CLientes");
+        
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        txtNombre = new JTextField(20);
+        txtCedula = new JTextField(20);
+        txtTelefono = new JTextField(20);
+        txtCorreo = new JTextField(20);
+        txtCredito = new JTextField(20);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(new JLabel("Nombre: "), gbc);
+        gbc.gridx = 1;
+        add(txtNombre, gbc);
 
-    public ClientesGUI() {
-        setTitle("Clientes");
-        setSize(400, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(null);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        add(new JLabel("Cedula: "), gbc);
+        gbc.gridx = 1;
+        add(txtCedula, gbc);
 
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(20, 20, 100, 25);
-        add(lblNombre);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(new JLabel("Telefono: "), gbc);
+        gbc.gridx = 1;
+        add(txtTelefono, gbc);
 
-        txtNombre = new JTextField();
-        txtNombre.setBounds(130, 20, 200, 25);
-        add(txtNombre);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        add(new JLabel("Correo: "), gbc);
+        gbc.gridx = 1;
+        add(txtCorreo, gbc);
 
-        JLabel lblCedula = new JLabel("Cedula:");
-        lblCedula.setBounds(20, 60, 100, 25);
-        add(lblCedula);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        add(new JLabel("Credito: "), gbc);
+        gbc.gridx = 1;
+        add(txtCredito, gbc);
 
-        txtCedula = new JTextField();
-        txtCedula.setBounds(130, 60, 200, 25);
-        add(txtCedula);
+        JPanel buttonPanel = new JPanel();
+        btnRegistrar = new JButton("Registrar");
+        btnCancelar = new JButton("Cancelar");
+        
+        btnRegistrar.addActionListener(e -> {
+            try {
+                String nombre = txtNombre.getText();
+                String cedula = txtCedula.getText();
+                String telefono = txtTelefono.getText();
+                String correo = txtCorreo.getText();
+                double credito = Double.parseDouble(txtCredito.getText());
 
-        JLabel lblTelefono = new JLabel("Telefono:");
-        lblTelefono.setBounds(20, 100, 100, 25);
-        add(lblTelefono);
+                // (String cedula, String telefono, double creditoRestante, int idUsuario, String nombre, String rol, String correo, String clave)
+                Cliente nuevoCliente = new Cliente(cedula, telefono, credito,0, nombre, "Cliente",correo,"1234");
+                data.agregarCliente(nuevoCliente); // método de Data para agregar
 
-        txtTelefono = new JTextField();
-        txtTelefono.setBounds(130, 60, 200, 25);
-        add(txtTelefono);
+                JOptionPane.showMessageDialog(this, "Cliente registrado correctamente.");
+                dispose();
 
-        JLabel lblDireccion = new JLabel("Telefono:");
-        lblDireccion.setBounds(20, 140, 100, 25);
-        add(lblDireccion);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Por favor, digita números válidos en el campo de crédito.",
+                        "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
-        txtDireccion = new JTextField();
-        txtDireccion.setBounds(130, 140, 200, 25);
-        add(txtDireccion);
+        btnCancelar.addActionListener(e -> dispose());
 
-        JLabel lblCredito = new JLabel("Telefono:");
-        lblCredito.setBounds(20, 180, 120, 25);
-        add(lblCredito);
+        // Agregar botones al panel
+        buttonPanel.add(btnCancelar);
+        buttonPanel.add(btnRegistrar);
 
-        txtCredito = new JTextField();
-        txtCredito.setBounds(150, 180, 180, 25);
-        add(txtCredito);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        add(buttonPanel, gbc);
 
-        btnRegistrar = new JButton("Registrar Cliente");
-        btnRegistrar.setBounds(80, 240, 150, 30);
-        add(btnRegistrar);
-
-        btnBuscarHistorial = new JButton("Historial");
-        btnBuscarHistorial.setBounds(240, 240, 100, 30);
-        add(btnBuscarHistorial);
+        pack();
+        setLocationRelativeTo(owner);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
 

@@ -4,11 +4,13 @@
  */
 package com.mycompany.sistemapinkpantherapp;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HP
  */
-public class Producto {
+public class Producto implements Serializable{
 
     private int idProducto;
     private String codigo;

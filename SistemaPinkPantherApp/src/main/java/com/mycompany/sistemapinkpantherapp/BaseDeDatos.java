@@ -46,6 +46,18 @@ public class BaseDeDatos implements Serializable {
     public void agregarCliente(Cliente c) {
         clientes.add(c);
     }
+     public void deleteClient(String cedula) {
+        clientes.removeIf(v -> v.getCedula().equals(cedula));
+    }
+
+    public Cliente searchClientByCedula(String cedula) {
+        for (Cliente bo : clientes) {
+            if (String.valueOf(bo.getCedula()).equals(cedula)) {
+                return bo;
+            }
+        }
+        return null;
+    }
 
     public void agregarProducto(Producto p) {
         productos.add(p);
@@ -73,5 +85,10 @@ public class BaseDeDatos implements Serializable {
 
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
+    }
+
+    public void setClientes(ArrayList<Cliente> newClient) {
+        clientes.clear();
+        this.clientes = newClient;
     }
 }

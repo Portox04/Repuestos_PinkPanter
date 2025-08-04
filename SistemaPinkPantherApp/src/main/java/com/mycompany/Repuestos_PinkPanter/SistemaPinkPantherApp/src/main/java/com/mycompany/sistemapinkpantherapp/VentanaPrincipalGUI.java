@@ -1,0 +1,106 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.sistemapinkpantherapp;
+
+import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author HP
+ */
+public class VentanaPrincipalGUI extends JFrame {
+
+    private JButton btnVentas, btnClientes, btnFactura, btnInventario, btnSalir;
+    private BaseDeDatos datos;
+
+    public VentanaPrincipalGUI() {
+
+        datos = new BaseDeDatos();
+
+        Producto prueba = new Producto(221, "2321313SA", "Termometro", "Temperatura", "Chevy Cavalier 2019", 2200.00, 5500.00, 10, 5, 1021);
+        datos.agregarProducto(prueba);
+
+        setTitle("Pantalla Principal - Pink Panther");
+        setSize(400, 350);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+
+        JLabel lblBienvenida = new JLabel("Bienvenido al Sistema Pink Panther");
+        lblBienvenida.setBounds(70, 20, 300, 25);
+        add(lblBienvenida);
+
+        btnVentas = new JButton("Ventas");
+        btnVentas.setBounds(120, 60, 150, 30);
+        add(btnVentas);
+
+        btnClientes = new JButton("Clientes");
+        btnClientes.setBounds(120, 100, 150, 30);
+        add(btnClientes);
+
+        btnFactura = new JButton("Factura");
+        btnFactura.setBounds(120, 140, 150, 30);
+        add(btnFactura);
+
+        btnInventario = new JButton("Inventario");
+        btnInventario.setBounds(120, 180, 150, 30);
+        add(btnInventario);
+
+        btnSalir = new JButton("Salir");
+        btnSalir.setBounds(120, 230, 150, 30);
+        add(btnSalir);
+
+        // Acciones de los botones
+        btnVentas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new VentasGUI(VentanaPrincipalGUI.this, datos).setVisible(true);
+            }
+        });
+
+        btnClientes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new ClientesGUI(VentanaPrincipalGUI.this, datos).setVisible(true);
+            }
+        });
+
+        btnFactura.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new FacturaGUI().setVisible(true);
+            }
+        });
+
+        btnInventario.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new InventarioGUI().setVisible(true);
+            }
+        });
+
+        btnSalir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int opcion = JOptionPane.showConfirmDialog(
+                        VentanaPrincipalGUI.this,
+                        "¿Estás seguro que deseas salir del sistema?",
+                        "Confirmar salida",
+                        JOptionPane.YES_NO_OPTION
+                );
+                if (opcion == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        JButton btnGuardarBD = new JButton("Guardar Base de Datos");
+        btnGuardarBD.addActionListener(e -> {
+            SistemaPinkPantherApp.bd.guardar();
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.");
+        });
+        this.add(btnGuardarBD);
+    }
+
+}
